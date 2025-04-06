@@ -1,0 +1,17 @@
+.navbar {
+  width: 100%;
+  height: 80px;
+  padding: var(--mantine-spacing-md);
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid
+    light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+}
+
+.navbar_items {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  gap: 10px;
+  align-items: center;
+}
