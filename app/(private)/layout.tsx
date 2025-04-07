@@ -1,11 +1,12 @@
+"use client";
+
 import { getCurrentUser } from "@/api/auth/login/actions";
+import { useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 
-export default async function ProtectedLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function ProtectedLayout({ children }: { children: ReactNode }) {
+  const router = useRouter();
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -13,16 +14,11 @@ export default async function ProtectedLayout({
         console.log("Current User:", user);
       } catch (error) {
         console.error("Error fetching user:", error);
-        // Handle the error (e.g., redirect to login page)
+        router.push("/auth/login");
       }
     };
     fetchUser();
   }, []);
 
-  return (
-    <div>
-      <h1>Protected Layout</h1>
-      {children}
-    </div>
-  );
+  return <div>{children}</div>;
 }
