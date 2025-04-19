@@ -9,14 +9,14 @@ function getCookie(name: string): string | null {
   return null;
 }
 
-const axiosInstance = axios.create({
+const apiClient = axios.create({
   baseURL: "http://localhost:8000/api/v1",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-axiosInstance.interceptors.request.use(
+apiClient.interceptors.request.use(
   (config) => {
     const token = getCookie("access_token");
 
@@ -28,4 +28,4 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export default axiosInstance;
+export default apiClient;
