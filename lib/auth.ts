@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import apiClient from "./api-client";
 
 interface User {
@@ -38,15 +37,6 @@ export async function login(data: { username: string; password: string }) {
 
     if (!res.ok) {
       throw new Error(result.detail || "Login failed");
-    }
-
-    // Set the access token cookie
-    if (result.access_token) {
-      Cookies.set("access_token", result.access_token, {
-        expires: 1, // 1 day
-        path: "/",
-        sameSite: "lax",
-      });
     }
 
     return result;

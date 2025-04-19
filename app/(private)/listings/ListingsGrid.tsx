@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Group, SimpleGrid, Text, Title } from "@mantine/core";
+import { Button, Center, Group, SimpleGrid, Text, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ interface Listing {
   id: number;
   title: string;
   description: string;
+  size: string;
   price: number;
   image_url: string;
   created_at: string;
@@ -57,15 +58,17 @@ export default function ListingsGrid() {
           No listings found. Be the first to create one!
         </Text>
       ) : (
-        <SimpleGrid
-          cols={{ base: 1, sm: 2, md: 4 }}
-          spacing="sm"
-          verticalSpacing="sm"
-        >
-          {listings.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
-          ))}
-        </SimpleGrid>
+        <Center>
+          <SimpleGrid
+            cols={{ base: 1, sm: 2, md: 4 }}
+            spacing="sm"
+            verticalSpacing="sm"
+          >
+            {listings.map((listing) => (
+              <ListingCard key={listing.id} listing={listing} />
+            ))}
+          </SimpleGrid>
+        </Center>
       )}
     </>
   );
