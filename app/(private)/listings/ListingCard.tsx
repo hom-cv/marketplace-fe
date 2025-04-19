@@ -12,7 +12,7 @@ interface ListingCardProps {
     description: string;
     price: number;
     image_url: string;
-    created_at: string;
+    created_date: string;
     seller: {
       username: string;
     };

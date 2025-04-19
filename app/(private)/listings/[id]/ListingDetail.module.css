@@ -1,0 +1,160 @@
+.detailCard {
+  transition: transform 0.2s ease;
+}
+
+.imageWrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.imageWrapper img {
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.responsiveImage {
+  height: 250px;
+}
+
+@media (min-width: 768px) {
+  .responsiveImage {
+    height: 400px;
+  }
+}
+
+.title {
+  color: var(--mantine-color-dark-8);
+  word-break: break-word;
+}
+
+.price {
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.metadata {
+  opacity: 0.8;
+}
+
+.description {
+  line-height: 1.6;
+  color: var(--mantine-color-dark-7);
+  word-break: break-word;
+}
+
+.contactButton {
+  transition: transform 0.2s ease;
+}
+
+.contactButton:hover {
+  transform: translateY(-2px);
+}
+
+.listingInfo {
+  background-color: var(--mantine-color-white);
+}
+
+.sellerCard {
+  background-color: var(--mantine-color-gray-0);
+  border: 1px solid var(--mantine-color-gray-2);
+}
+
+/* Desktop Styles */
+.desktopLayout {
+  display: none;
+}
+
+.desktopOnly {
+  display: none;
+}
+
+/* Mobile Styles */
+.mobileLayout {
+  display: flex;
+  gap: 1rem;
+}
+
+.mobileOnly {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .desktopLayout {
+    display: block;
+  }
+
+  .desktopOnly {
+    display: block;
+  }
+
+  .mobileLayout {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: none;
+  }
+
+  .imageWrapper {
+    margin-bottom: 0;
+  }
+
+  .price {
+    font-size: 1.75rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .detailCard {
+    padding: var(--mantine-spacing-xs);
+  }
+
+  .price {
+    font-size: 1.25rem;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .mobileLayout {
+    gap: var(--mantine-spacing-md);
+  }
+
+  .imageWrapper {
+    margin-bottom: 0;
+  }
+
+  .listingInfo,
+  .sellerCard {
+    margin: 0;
+  }
+}
+
+.listingInfoContainer,
+.sellerInfoContainer {
+  padding: var(--mantine-spacing-md);
+}
+
+@media (min-width: 768px) {
+  .listingInfoContainer {
+    background-color: var(--mantine-color-white);
+    border: 1px solid var(--mantine-color-gray-2);
+    border-radius: var(--mantine-radius-md);
+    box-shadow: var(--mantine-shadow-sm);
+  }
+
+  .sellerInfoContainer {
+    background-color: var(--mantine-color-gray-0);
+    border: 1px solid var(--mantine-color-gray-2);
+    border-radius: var(--mantine-radius-md);
+    box-shadow: var(--mantine-shadow-sm);
+  }
+}

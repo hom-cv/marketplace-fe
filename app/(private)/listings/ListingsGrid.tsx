@@ -14,7 +14,7 @@ interface Listing {
   size: string;
   price: number;
   image_url: string;
-  created_at: string;
+  created_date: string;
   seller: {
     username: string;
   };
@@ -62,7 +62,7 @@ export default function ListingsGrid() {
           <SimpleGrid
             cols={{ base: 1, sm: 2, md: 4 }}
             spacing="sm"
-            verticalSpacing="sm"
+            verticalSpacing="md"
           >
             {listings.map((listing) => (
               <ListingCard key={listing.id} listing={listing} />
