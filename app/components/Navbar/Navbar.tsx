@@ -28,6 +28,8 @@ export default function Navbar() {
         leftSection={<IconUser />}
         justify="flex-start"
         fullWidth
+        component={Link}
+        href="/profile"
       >
         Profile
       </Button>
@@ -113,7 +115,12 @@ export default function Navbar() {
               <Button variant="transparent" size="compact-sm">
                 <IconMail />
               </Button>
-              <Button variant="transparent" size="compact-sm">
+              <Button
+                variant="transparent"
+                size="compact-sm"
+                component={Link}
+                href="/profile"
+              >
                 <IconUser />
               </Button>
             </Group>
