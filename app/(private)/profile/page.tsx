@@ -26,7 +26,7 @@ export default function ProfilePage() {
   ];
 
   return (
-    <Container className={styles.profileContainer}>
+    <Container size="lg" py="xl">
       <Title order={2} mb="xl">
         Profile Settings
       </Title>
