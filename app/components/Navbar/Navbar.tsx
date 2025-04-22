@@ -19,8 +19,14 @@ export default function Navbar() {
 
   const menuItems = user ? (
     <Stack>
-      <Button component={Link} href="/listings/new" onClick={close} mt="auto">
-        + New Listing
+      <Button
+        component={Link}
+        href="/listings"
+        onClick={close}
+        mt="auto"
+        variant="outline"
+      >
+        Explore
       </Button>
       <Button
         variant="transparent"
@@ -39,6 +45,8 @@ export default function Navbar() {
         leftSection={<IconHeart />}
         justify="flex-start"
         fullWidth
+        component={Link}
+        href="/likes"
       >
         My Likes
       </Button>
@@ -106,10 +114,15 @@ export default function Navbar() {
         <Box className={classes.desktop_menu}>
           {user ? (
             <Group gap="md">
-              <Button component={Link} href="/listings/new">
-                + New Listing
+              <Button component={Link} href="/listings" variant="outline">
+                Explore
               </Button>
-              <Button variant="transparent" size="compact-sm">
+              <Button
+                variant="transparent"
+                size="compact-sm"
+                component={Link}
+                href="/likes"
+              >
                 <IconHeart />
               </Button>
               <Button variant="transparent" size="compact-sm">

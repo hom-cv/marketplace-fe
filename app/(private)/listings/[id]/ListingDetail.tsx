@@ -1,5 +1,6 @@
 "use client";
 
+import LikeButton from "@/components/LikeButton";
 import {
   Box,
   Button,
@@ -11,7 +12,7 @@ import {
   Text,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconHeart, IconUser } from "@tabler/icons-react";
+import { IconUser } from "@tabler/icons-react";
 import styles from "./ListingDetail.module.css";
 
 interface ListingDetailProps {
@@ -26,6 +27,8 @@ interface ListingDetailProps {
     seller: {
       username: string;
     };
+    is_liked: boolean;
+    like_count: number;
   };
 }
 
@@ -40,12 +43,20 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
 
   const ListingInfo = () => (
     <Box className={styles.listingInfoContainer}>
-      <Stack gap="md">
+      <Stack gap="sm">
         <Group justify="space-between" align="center" wrap="nowrap">
           <Text size="lg" fw={700} className={styles.title} style={{ flex: 1 }}>
             {listing.title}
           </Text>
-          <IconHeart size={24} style={{ flexShrink: 0 }} />
+          <Stack>
+            <LikeButton
+              listingId={listing.id}
+              initialIsLiked={listing.is_liked}
+              initialLikeCount={listing.like_count}
+              showLikeCount={true}
+              size={"lg"}
+            />
+          </Stack>
         </Group>
         <Text size="md">Size: {listing.size}</Text>
         <Text size="sm" className={styles.description}>

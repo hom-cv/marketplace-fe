@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Card, Group, Image, Stack, Text } from "@mantine/core";
+import LikeButton from "app/components/LikeButton";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -16,6 +17,7 @@ interface ListingCardProps {
     seller: {
       username: string;
     };
+    is_liked?: boolean;
   };
 }
 
@@ -24,7 +26,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
 
   return (
     <Card shadow="sm" padding="lg" withBorder maw={300}>
-      <Card.Section>
+      <Card.Section pos="relative">
         <Image
           src={
             listing.image_url ||
@@ -33,6 +35,13 @@ export default function ListingCard({ listing }: ListingCardProps) {
           height={160}
           alt={listing.title}
         />
+        <Group pos="absolute" top={8} right={8}>
+          <LikeButton
+            listingId={listing.id}
+            initialIsLiked={listing.is_liked}
+            size="md"
+          />
+        </Group>
       </Card.Section>
 
       <Stack gap="xs" mt="md">

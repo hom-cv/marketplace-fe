@@ -1,11 +1,11 @@
 "use client";
 
-import { Button, Center, Group, SimpleGrid, Text, Title } from "@mantine/core";
+import { Center, Group, SimpleGrid, Text, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import ListingCard from "app/(private)/listings/ListingCard";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import ListingCard from "./ListingCard";
-import { getListings } from "./actions";
+import { getLikedListings } from "./actions";
 
 interface Listing {
   id: number;
@@ -20,7 +20,7 @@ interface Listing {
   };
 }
 
-export default function ListingsGrid() {
+export default function LikesGrid() {
   const router = useRouter();
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
@@ -28,7 +28,7 @@ export default function ListingsGrid() {
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const data = await getListings();
+        const data = await getLikedListings();
         setListings(data);
       } catch (error) {
         notifications.show({
@@ -47,15 +47,12 @@ export default function ListingsGrid() {
   return (
     <>
       <Group justify="space-between" mb="xl">
-        <Title order={2}>Listings</Title>
-        <Button onClick={() => router.push("/listings/new")}>
-          + New Listing
-        </Button>
+        <Title order={2}>My Likes</Title>
       </Group>
 
       {listings.length === 0 && !loading ? (
         <Text c="dimmed" ta="center" py="xl">
-          No listings found. Be the first to create one!
+          No likes found. Start exploring to find items you love!
         </Text>
       ) : (
         <Center>

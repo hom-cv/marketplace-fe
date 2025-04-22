@@ -2,7 +2,7 @@ import apiClient from "lib/api-client";
 
 export async function getListings() {
   try {
-    const response = await apiClient.get("/listings");
+    const response = await apiClient.get("/listings/with-likes");
     return response.data;
   } catch (error: any) {
     const message =
