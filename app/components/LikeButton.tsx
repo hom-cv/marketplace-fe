@@ -24,7 +24,10 @@ export default function LikeButton({
   const [isLiked, setIsLiked] = useState(initialIsLiked);
   const [likeCount, setLikeCount] = useState(initialLikeCount);
 
-  const handleToggleLike = async () => {
+  const handleToggleLike = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
     try {
       if (isLiked) {
         await removeFromLikes(listingId);
@@ -47,7 +50,7 @@ export default function LikeButton({
     <Stack gap={2} align="center">
       <Tooltip label={isLiked ? "Remove from likes" : "Add to likes"}>
         <ActionIcon
-          variant="transparent"
+          variant="subtle"
           onClick={handleToggleLike}
           size={size}
           m={4}

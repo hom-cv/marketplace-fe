@@ -1,21 +1,37 @@
 import { useUserStore } from "@/store/userStore";
 import {
+  ActionIcon,
   Box,
   Burger,
   Button,
   Divider,
   Drawer,
   Group,
+  Menu,
   Stack,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconHeart, IconMail, IconShirt, IconUser } from "@tabler/icons-react";
+import {
+  IconHeart,
+  IconLogout,
+  IconMail,
+  IconShirt,
+  IconUser,
+} from "@tabler/icons-react";
 import Link from "next/link";
+import { logout } from "../../actions/auth";
 import classes from "./Navbar.module.css";
 
 export default function Navbar() {
-  const { user } = useUserStore.getState();
+  const { user, clearUser } = useUserStore();
   const [opened, { toggle, close }] = useDisclosure(false);
+
+  const handleLogout = async () => {
+    // Clear user from store
+    clearUser();
+    // Call server action to logout
+    await logout();
+  };
 
   const menuItems = user ? (
     <Stack>
@@ -72,7 +88,16 @@ export default function Navbar() {
         Browse Listings
       </Button>
       <Divider />
-      <Button onClick={close} fullWidth>
+      <Button
+        onClick={() => {
+          close();
+          handleLogout();
+        }}
+        leftSection={<IconLogout />}
+        color="red"
+        variant="light"
+        fullWidth
+      >
         Logout
       </Button>
     </Stack>
@@ -117,25 +142,43 @@ export default function Navbar() {
               <Button component={Link} href="/listings" variant="outline">
                 Explore
               </Button>
-              <Button
+              <ActionIcon
                 variant="transparent"
                 size="compact-sm"
                 component={Link}
                 href="/likes"
               >
                 <IconHeart />
-              </Button>
-              <Button variant="transparent" size="compact-sm">
+              </ActionIcon>
+              <ActionIcon variant="transparent" size="compact-sm">
                 <IconMail />
-              </Button>
-              <Button
-                variant="transparent"
-                size="compact-sm"
-                component={Link}
-                href="/profile"
-              >
-                <IconUser />
-              </Button>
+              </ActionIcon>
+              <Menu shadow="md" width={200} position="bottom-end">
+                <Menu.Target>
+                  <ActionIcon variant="transparent" size="compact-sm">
+                    <IconUser />
+                  </ActionIcon>
+                </Menu.Target>
+
+                <Menu.Dropdown>
+                  <Menu.Label>Account</Menu.Label>
+                  <Menu.Item
+                    component={Link}
+                    href="/profile"
+                    leftSection={<IconUser size={16} />}
+                  >
+                    Profile
+                  </Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Item
+                    color="red"
+                    leftSection={<IconLogout size={16} />}
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
             </Group>
           ) : (
             <Group gap="md">

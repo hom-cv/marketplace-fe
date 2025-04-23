@@ -44,8 +44,10 @@ export default function LoginForm() {
       } else {
         setErrorMessage(result.error || "Login failed");
       }
-    } catch (error) {
-      setErrorMessage("An unexpected error occurred. Please try again.");
+    } catch (error: any) {
+      setErrorMessage(
+        error.message || "An unexpected error occurred. Please try again."
+      );
       console.error("Login error:", error);
     } finally {
       setLoading(false);
