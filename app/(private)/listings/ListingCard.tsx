@@ -1,9 +1,10 @@
 "use client";
 
-import { Button, Card, Group, Image, Stack, Text } from "@mantine/core";
+import { Card, Group, Image, Stack, Text } from "@mantine/core";
 import LikeButton from "app/components/LikeButton";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import classes from "./Listings.module.css"; // optional styling file
 
 interface ListingCardProps {
   listing: {
@@ -23,9 +24,17 @@ interface ListingCardProps {
 
 export default function ListingCard({ listing }: ListingCardProps) {
   const router = useRouter();
-
+  console.log(listing);
   return (
-    <Card shadow="sm" padding="lg" withBorder maw={300}>
+    <Card
+      shadow="sm"
+      padding="lg"
+      withBorder
+      maw={300}
+      component={Link}
+      href={`/listings/${listing.id}`}
+      className={classes.card}
+    >
       <Card.Section pos="relative">
         <Image
           src={
@@ -59,9 +68,6 @@ export default function ListingCard({ listing }: ListingCardProps) {
         </Text>
         <Group justify="space-between">
           <Text variant="light">฿{listing.price.toFixed(2)}</Text>
-          <Button component={Link} href={`/listings/${listing.id}`}>
-            Buy
-          </Button>
         </Group>
       </Stack>
     </Card>
