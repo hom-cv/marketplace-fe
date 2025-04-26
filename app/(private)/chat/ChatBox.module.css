@@ -1,0 +1,47 @@
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  position: relative;
+  max-width: 80%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+
+.sentMessage {
+  align-self: flex-end;
+  background-color: var(--mantine-color-dark-8);
+  color: var(--mantine-color-white);
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
+}
+
+.receivedMessage {
+  align-self: flex-start;
+  background-color: var(--mantine-color-gray-1);
+  margin-right: auto;
+  border-bottom-left-radius: 4px;
+}
+
+.messageTime {
+  text-align: right;
+  margin-top: 4px;
+  font-size: 0.7rem;
+}
+
+/* Hide scrollbar for chat area */
+.chatScrollArea > div > div {
+  /* For Firefox */
+  scrollbar-width: none;
+  /* For Internet Explorer and Edge */
+  -ms-overflow-style: none;
+}
+
+.chatScrollArea > div > div::-webkit-scrollbar {
+  /* For Chrome, Safari, and Opera */
+  display: none;
+}

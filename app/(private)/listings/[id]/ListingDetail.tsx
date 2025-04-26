@@ -20,7 +20,7 @@ import { sendMessage } from "app/(private)/chat/actions";
 import { useState } from "react";
 import styles from "./ListingDetail.module.css";
 
-interface ListingDetailProps {
+export interface ListingDetailProps {
   listing: {
     id: number;
     title: string;

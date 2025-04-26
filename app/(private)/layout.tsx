@@ -2,7 +2,7 @@
 
 import Navbar from "@/components/Navbar/Navbar";
 import { useUserStore } from "@/store/userStore";
-import { Center, Container, Loader } from "@mantine/core";
+import { Center, Loader } from "@mantine/core";
 import { getCurrentUser } from "lib/auth";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
@@ -47,11 +47,15 @@ export default function ProtectedLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100%",
+      }}
+    >
       <Navbar />
-      <Container size="lg" py="md">
-        {children}
-      </Container>
+      <main>{children}</main>
     </div>
   );
 }
