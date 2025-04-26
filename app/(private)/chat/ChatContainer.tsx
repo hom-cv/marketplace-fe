@@ -23,48 +23,57 @@ export default function ChatContainer() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchChatListings = useCallback(async () => {
-    try {
-      setLoading(true);
-      const data = await getChatListings();
+  const fetchChatListings = useCallback(
+    async (isBackgroundRefresh = false) => {
+      try {
+        // Only set main loading state if it's not a background refresh
+        if (!isBackgroundRefresh) {
+          setLoading(true);
+        }
+        const data = await getChatListings();
 
-      setChatListings(data || []);
+        setChatListings(data || []);
 
-      // Select first listing by default if available
-      if (data.listings && data.listings.length > 0) {
-        if (!selectedListing) {
-          setSelectedListing(data.listings[0]);
-        } else {
-          // If we already have a selected listing, keep it selected
-          const updatedSelectedListing = data.listings.find(
-            (listing: ChatListingItem) =>
-              listing.listing_id === selectedListing.listing_id &&
-              listing.other_user_id === selectedListing.other_user_id
-          );
+        // Select first listing by default if available
+        if (data.listings && data.listings.length > 0) {
+          if (!selectedListing) {
+            setSelectedListing(data.listings[0]);
+          } else {
+            // If we already have a selected listing, keep it selected
+            const updatedSelectedListing = data.listings.find(
+              (listing: ChatListingItem) =>
+                listing.listing_id === selectedListing.listing_id &&
+                listing.other_user_id === selectedListing.other_user_id
+            );
 
-          if (updatedSelectedListing) {
-            setSelectedListing(updatedSelectedListing);
+            if (updatedSelectedListing) {
+              setSelectedListing(updatedSelectedListing);
+            }
           }
         }
+      } catch (err: any) {
+        setError(err.message || "Failed to load chat listings");
+      } finally {
+        // Only turn off main loading state if it's not a background refresh
+        if (!isBackgroundRefresh) {
+          setLoading(false);
+        }
       }
-    } catch (err: any) {
-      setError(err.message || "Failed to load chat listings");
-    } finally {
-      setLoading(false);
-    }
-  }, [selectedListing]);
+    },
+    [selectedListing]
+  );
 
   // Initial load of chat listings
   useEffect(() => {
-    fetchChatListings();
+    fetchChatListings(false); // Explicitly call with false for initial load
   }, [fetchChatListings]);
 
   // Set up a refresh interval to periodically update listings
   // This is a fallback in case WebSocket updates fail
   useEffect(() => {
     const intervalId = setInterval(() => {
-      fetchChatListings();
-    }, 30000); // Refresh every 30 seconds
+      fetchChatListings(true); // Call with true for background refresh
+    }, 10000); // Refresh every 30 seconds
 
     return () => clearInterval(intervalId);
   }, [fetchChatListings]);

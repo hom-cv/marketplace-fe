@@ -313,7 +313,7 @@ export default function ChatBox({ listing }: ChatBoxProps) {
         </Text>
       )}
 
-      <Paper withBorder p="xs" h="448px" className={classes.chatContainer}>
+      <Paper withBorder p="xs" h="100%" className={classes.chatContainer}>
         <ScrollArea
           h="100%"
           viewportRef={viewportRef}
