@@ -18,6 +18,8 @@ interface Listing {
   seller: {
     username: string;
   };
+  is_liked: boolean;
+  like_count: number;
 }
 
 export default function ListingDetailPage() {
@@ -29,7 +31,11 @@ export default function ListingDetailPage() {
     const fetchListing = async () => {
       try {
         const data = await getListing(Number(params.id));
-        setListing(data);
+        setListing({
+          ...data,
+          is_liked: data.is_liked ?? false,
+          like_count: data.like_count ?? 0,
+        });
       } catch (error) {
         notifications.show({
           title: "Error",

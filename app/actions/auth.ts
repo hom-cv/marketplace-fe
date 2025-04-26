@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
  */
 export async function logout() {
   // Clear authentication cookies
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   cookieStore.delete("access_token");
 
   // Redirect to login page
