@@ -58,8 +58,8 @@
 }
 
 .sellerCard {
-  background-color: var(--mantine-color-gray-0);
-  border: 1px solid var(--mantine-color-gray-2);
+  background-color: var(--mantine-color-dark-0);
+  border: 1px solid var(--mantine-color-dark-2);
 }
 
 /* Desktop Styles */
@@ -146,14 +146,14 @@
 @media (min-width: 768px) {
   .listingInfoContainer {
     background-color: var(--mantine-color-white);
-    border: 1px solid var(--mantine-color-gray-2);
+    border: 1px solid var(--mantine-color-dark-2);
     border-radius: var(--mantine-radius-md);
     box-shadow: var(--mantine-shadow-sm);
   }
 
   .sellerInfoContainer {
-    background-color: var(--mantine-color-gray-0);
-    border: 1px solid var(--mantine-color-gray-2);
+    background-color: var(--mantine-color-dark-0);
+    border: 1px solid var(--mantine-color-dark-2);
     border-radius: var(--mantine-radius-md);
     box-shadow: var(--mantine-shadow-sm);
   }

@@ -72,6 +72,8 @@ export default function Navbar() {
         leftSection={<IconMail />}
         justify="flex-start"
         fullWidth
+        component={Link}
+        href="/chat"
       >
         My Messages
       </Button>
@@ -150,7 +152,12 @@ export default function Navbar() {
               >
                 <IconHeart />
               </ActionIcon>
-              <ActionIcon variant="transparent" size="compact-sm">
+              <ActionIcon
+                variant="transparent"
+                size="compact-sm"
+                component={Link}
+                href="/chat"
+              >
                 <IconMail />
               </ActionIcon>
               <Menu shadow="md" width={200} position="bottom-end">

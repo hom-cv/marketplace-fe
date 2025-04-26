@@ -1,0 +1,35 @@
+.listingItem {
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.listingItem:hover {
+  background-color: var(--mantine-color-gray-1);
+}
+
+.selected {
+  background-color: var(--mantine-color-dark-9);
+  color: white;
+}
+
+.selected:hover {
+  background-color: var(--mantine-color-dark-8);
+  color: white;
+}
+
+/* Target specific children within .selected */
+.selected span,
+.selected .mantine-Text-root {
+  color: white !important;
+}
+
+.selected svg {
+  fill: white;
+  color: white;
+}
+
+.selected svg path {
+  fill: white;
+}

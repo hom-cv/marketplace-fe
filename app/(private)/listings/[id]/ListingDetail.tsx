@@ -7,15 +7,20 @@ import {
   Grid,
   Group,
   Image,
+  Modal,
   Paper,
   Stack,
   Text,
+  Textarea,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { IconUser } from "@tabler/icons-react";
+import { sendMessage } from "app/(private)/chat/actions";
+import { useState } from "react";
 import styles from "./ListingDetail.module.css";
 
-interface ListingDetailProps {
+export interface ListingDetailProps {
   listing: {
     id: number;
     title: string;
@@ -33,12 +38,52 @@ interface ListingDetailProps {
 }
 
 export default function ListingDetail({ listing }: ListingDetailProps) {
+  const [opened, { open, close }] = useDisclosure(false);
+  const [message, setMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
+
   const handleContact = () => {
     notifications.show({
       title: "Contact Initiated",
       message: `You're contacting ${listing.seller.username} about "${listing.title}"`,
       color: "blue",
     });
+  };
+
+  const handleSendMessage = async () => {
+    if (!message.trim()) {
+      notifications.show({
+        title: "Error",
+        message: "Please enter a message",
+        color: "red",
+      });
+      return;
+    }
+
+    try {
+      setIsSending(true);
+      await sendMessage({
+        content: message,
+        listing_id: listing.id,
+      });
+
+      notifications.show({
+        title: "Success",
+        message: `Message sent to ${listing.seller.username}`,
+        color: "green",
+      });
+
+      setMessage("");
+      close();
+    } catch (error: any) {
+      notifications.show({
+        title: "Error",
+        message: error.message || "Failed to send message",
+        color: "red",
+      });
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const ListingInfo = () => (
@@ -68,7 +113,7 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
         <Button size="sm" fullWidth onClick={handleContact}>
           Purchase
         </Button>
-        <Button size="sm" fullWidth onClick={handleContact} variant="outline">
+        <Button size="sm" fullWidth onClick={open} variant="outline">
           Message Seller
         </Button>
       </Stack>
@@ -137,13 +182,36 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
   );
 
   return (
-    <Paper p={{ base: "xs", sm: "xl" }} className={styles.detailCard}>
-      <Box className={styles.desktopOnly}>
-        <DesktopLayout />
-      </Box>
-      <Box className={styles.mobileOnly}>
-        <MobileLayout />
-      </Box>
-    </Paper>
+    <>
+      <Paper p={{ base: "xs", sm: "xl" }} className={styles.detailCard}>
+        <Box className={styles.desktopOnly}>
+          <DesktopLayout />
+        </Box>
+        <Box className={styles.mobileOnly}>
+          <MobileLayout />
+        </Box>
+      </Paper>
+
+      <Modal
+        opened={opened}
+        onClose={close}
+        title={`Message to ${listing.seller.username}`}
+        centered
+      >
+        <Stack>
+          <Textarea
+            placeholder="Write your message here..."
+            minRows={4}
+            value={message}
+            onChange={(event) => setMessage(event.currentTarget.value)}
+          />
+          <Group justify="center" mt="md">
+            <Button onClick={handleSendMessage} loading={isSending}>
+              Send Message
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
+    </>
   );
 }
