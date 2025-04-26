@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import apiClient from "./api-client";
 
 interface User {
