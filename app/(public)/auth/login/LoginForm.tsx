@@ -93,7 +93,7 @@ export default function LoginForm() {
       </form>
 
       <Text size="sm" ta="center" mt={10}>
-        Don't have an account?{" "}
+        Don&#39;t have an account?{" "}
         <Anchor size="sm" href="/auth/register">
           Sign up
         </Anchor>
