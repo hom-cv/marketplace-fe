@@ -1,5 +1,7 @@
 "use client";
 
+import { setCookie } from "lib/util/cookies";
+
 export async function handleLogin(formData: {
   username: string;
   password: string;
@@ -20,6 +22,11 @@ export async function handleLogin(formData: {
 
     if (!res.ok) {
       throw new Error(result.detail || "Login failed");
+    }
+
+    // Explicitly set the access token cookie in the browser
+    if (result.access_token) {
+      setCookie("access_token", result.access_token);
     }
 
     return result;
