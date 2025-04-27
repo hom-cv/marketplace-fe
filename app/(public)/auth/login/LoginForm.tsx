@@ -3,6 +3,7 @@
 import { Anchor, Box, Button, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import classes from "./Login.module.css";
@@ -34,6 +35,16 @@ export default function LoginForm() {
       const result = await handleLogin(values);
 
       if (result) {
+        // Manually set the cookie from the response
+        if (result.access_token) {
+          Cookies.set("access_token", result.access_token, {
+            expires: 7, // 7 days
+            path: "/",
+            secure: window.location.protocol === "https:",
+            sameSite: "Lax",
+          });
+        }
+
         notifications.show({
           title: "Login Successful",
           message: "Welcome back!",
