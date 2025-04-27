@@ -134,7 +134,7 @@ export default function Navbar() {
           href="/app"
           className={classes.brand}
         >
-          Project Marketplace
+          Market Archives
         </Button>
 
         {/* Desktop menu */}

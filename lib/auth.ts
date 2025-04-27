@@ -13,6 +13,7 @@ interface User {
 export async function getCurrentUser(): Promise<User> {
   try {
     const response = await apiClient.get("/auth/user");
+
     return response.data;
   } catch (error: any) {
     const message =
