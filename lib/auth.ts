@@ -28,7 +28,7 @@ export async function login(data: { username: string; password: string }) {
     formBody.append("username", data.username);
     formBody.append("password", data.password);
 
-    const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
       method: "POST",
       body: formBody,
       credentials: "include",

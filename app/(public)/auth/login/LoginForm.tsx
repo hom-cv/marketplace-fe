@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Text, TextInput } from "@mantine/core";
+import { Anchor, Box, Button, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
@@ -56,10 +56,12 @@ export default function LoginForm() {
 
   return (
     <Box className={classes.login_box}>
-      <Text fw={700}>Login</Text>
+      <Text fw={700} size="lg" mb={5}>
+        Login
+      </Text>
 
       {errorMessage && (
-        <Text color="red" size="sm">
+        <Text color="red" size="sm" mb={10}>
           {errorMessage}
         </Text>
       )}
@@ -79,10 +81,23 @@ export default function LoginForm() {
           {...form.getInputProps("password")}
         />
 
-        <Button type="submit" loading={loading} disabled={loading}>
+        <Button
+          fullWidth
+          type="submit"
+          loading={loading}
+          disabled={loading}
+          mt={10}
+        >
           {loading ? "Logging in..." : "Log in"}
         </Button>
       </form>
+
+      <Text size="sm" ta="center" mt={10}>
+        Don't have an account?{" "}
+        <Anchor size="sm" href="/auth/register">
+          Sign up
+        </Anchor>
+      </Text>
     </Box>
   );
 }

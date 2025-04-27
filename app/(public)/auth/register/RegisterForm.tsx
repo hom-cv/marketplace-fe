@@ -1,11 +1,11 @@
 "use client";
 
-import { Box, Button, Text, TextInput } from "@mantine/core";
+import { Anchor, Box, Button, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import classes from "./Register.module.css";
+import classes from "../login/Login.module.css";
 import { handleRegister } from "./actions";
 
 export default function RegisterForm() {
@@ -65,19 +65,18 @@ export default function RegisterForm() {
   };
 
   return (
-    <Box className={classes.register_box}>
-      <Text fw={700}>Register</Text>
+    <Box className={classes.login_box}>
+      <Text fw={700} size="lg" mb={5}>
+        Register
+      </Text>
 
       {errorMessage && (
-        <Text color="red" size="sm">
+        <Text color="red" size="sm" mb={10}>
           {errorMessage}
         </Text>
       )}
 
-      <form
-        onSubmit={form.onSubmit(onSubmit)}
-        className={classes.register_form}
-      >
+      <form onSubmit={form.onSubmit(onSubmit)} className={classes.login_form}>
         <TextInput
           withAsterisk
           label="Email"
@@ -110,10 +109,23 @@ export default function RegisterForm() {
           {...form.getInputProps("password")}
         />
 
-        <Button type="submit" loading={loading} disabled={loading}>
+        <Button
+          fullWidth
+          type="submit"
+          loading={loading}
+          disabled={loading}
+          mt={10}
+        >
           {loading ? "Signing up..." : "Sign up"}
         </Button>
       </form>
+
+      <Text size="sm" ta="center" mt={10}>
+        Already have an account?{" "}
+        <Anchor size="sm" href="/auth/login">
+          Log in
+        </Anchor>
+      </Text>
     </Box>
   );
 }

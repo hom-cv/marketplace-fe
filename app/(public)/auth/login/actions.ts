@@ -10,7 +10,7 @@ export async function handleLogin(formData: {
     formBody.append("username", formData.username);
     formBody.append("password", formData.password);
 
-    const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
       method: "POST",
       body: formBody,
       credentials: "include", // Make sure cookies are sent with the request
