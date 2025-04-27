@@ -6,12 +6,13 @@ const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 apiClient.interceptors.request.use(
   (config) => {
     const token = getCookie("access_token");
-
+    console.log("Token:", token);
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
