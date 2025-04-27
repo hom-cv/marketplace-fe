@@ -19,14 +19,36 @@ export function getCookie(name: string): string | null {
 /**
  * Utility function to set a cookie
  */
-export function setCookie(name: string, value: string, days: number = 7): void {
+export function setCookie(
+  name: string,
+  value: string,
+  days: number = 7,
+  options?: {
+    secure?: boolean;
+    sameSite?: "Strict" | "Lax" | "None";
+    domain?: string;
+  }
+): void {
   if (typeof document === "undefined") {
     return;
   }
 
   const expires = new Date();
   expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+
+  let cookieString = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+
+  if (options?.secure) {
+    cookieString += ";Secure";
+  }
+  if (options?.sameSite) {
+    cookieString += `;SameSite=${options.sameSite}`;
+  }
+  if (options?.domain) {
+    cookieString += `;Domain=${options.domain}`;
+  }
+
+  document.cookie = cookieString;
 }
 
 /**
