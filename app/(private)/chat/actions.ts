@@ -75,8 +75,9 @@ export function createWebSocketConnection(listingId: number): WebSocket {
   if (!token) {
     throw new Error("Authentication token not found");
   }
+  const encodedToken = encodeURIComponent(token);
 
-  const wsUrl = `ws://localhost:8000/api/v1/chat/ws/${listingId}/${token}`;
+  const wsUrl = `ws://${process.env.NEXT_PUBLIC_API_URL}/chat/ws/${listingId}/${encodedToken}`;
   const socket = new WebSocket(wsUrl);
 
   return socket;
