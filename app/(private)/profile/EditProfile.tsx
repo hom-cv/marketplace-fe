@@ -4,9 +4,10 @@ import { useUserStore } from "@/store/userStore";
 import { Button, Stack, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
+import apiClient from "lib/api-client";
 
 export default function EditProfile() {
-  const { user } = useUserStore();
+  const { user, setUser } = useUserStore();
 
   const form = useForm({
     initialValues: {
@@ -34,16 +35,17 @@ export default function EditProfile() {
     last_name: string;
   }) => {
     try {
-      // TODO: Implement update profile API call
+      const response = await apiClient.put("/profile", values);
+      setUser(response.data);
       notifications.show({
         title: "Success",
         message: "Profile updated successfully",
         color: "green",
       });
-    } catch (error) {
+    } catch (error: any) {
       notifications.show({
         title: "Error",
-        message: "Failed to update profile",
+        message: error.response?.data?.detail || "Failed to update profile",
         color: "red",
       });
     }

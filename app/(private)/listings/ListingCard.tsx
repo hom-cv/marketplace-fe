@@ -37,10 +37,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
     >
       <Card.Section pos="relative">
         <Image
-          src={
-            listing.image_url ||
-            "https://blocks.astratic.com/img/general-img-landscape.png"
-          }
+          src="https://blocks.astratic.com/img/general-img-landscape.png"
           height={160}
           alt={listing.title}
         />
