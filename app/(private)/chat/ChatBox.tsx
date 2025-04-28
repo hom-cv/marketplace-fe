@@ -178,7 +178,7 @@ export default function ChatBox({ listing }: ChatBoxProps) {
     setHasMoreMessages(false);
     initialLoadComplete.current = false;
     loadChatHistory(1);
-  }, [listing.listing_id, listing.other_user_id, loadChatHistory]);
+  }, [listing.listing_id, listing.other_user_id]);
 
   // Scroll to bottom: Instant on initial load, smooth for new messages
   useEffect(() => {

@@ -24,7 +24,7 @@ interface ListingCardProps {
 
 export default function ListingCard({ listing }: ListingCardProps) {
   const router = useRouter();
-  console.log(listing);
+
   return (
     <Card
       shadow="sm"
