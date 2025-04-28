@@ -77,7 +77,7 @@ export function createWebSocketConnection(listingId: number): WebSocket {
   }
   const encodedToken = encodeURIComponent(token);
 
-  const wsUrl = `ws://${process.env.NEXT_PUBLIC_API_URL}/chat/ws/${listingId}/${encodedToken}`;
+  const wsUrl = `${process.env.NEXT_PUBLIC_API_WS_URL}/chat/ws/${listingId}/${encodedToken}`;
   const socket = new WebSocket(wsUrl);
 
   return socket;
