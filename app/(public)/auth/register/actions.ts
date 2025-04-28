@@ -1,21 +1,15 @@
+import { registerSchema, type RegisterData } from "@/schemas/user";
 import apiClient from "lib/api-client";
-
-interface RegisterData {
-  email_address: string;
-  password: string;
-  username: string;
-  first_name: string;
-  last_name: string;
-}
 
 export async function handleRegister(data: RegisterData) {
   try {
-    const response = await apiClient.post("/auth/register", data);
-
+    const validatedData = registerSchema.parse(data);
+    const response = await apiClient.post("/auth/register", validatedData);
     return response.data;
   } catch (error: any) {
-    const message =
-      error.response?.data?.detail || error.message || "Registration failed";
-    throw new Error(message);
+    if (error.name === "ZodError") {
+      throw new Error("Invalid registration data");
+    }
+    throw new Error(error.response?.data?.detail || "Registration failed");
   }
 }

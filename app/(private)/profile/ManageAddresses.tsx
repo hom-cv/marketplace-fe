@@ -212,17 +212,20 @@ export default function ManageAddresses() {
           <form onSubmit={form.onSubmit(handleSubmit)}>
             <Stack gap="md">
               <TextInput
+                withAsterisk
                 label="Street Address"
                 placeholder="123 Main St"
                 {...form.getInputProps("street")}
               />
               <Stack gap="xs">
                 <TextInput
+                  withAsterisk
                   label="City"
                   placeholder="City"
                   {...form.getInputProps("city")}
                 />
                 <TextInput
+                  withAsterisk
                   label="State"
                   placeholder="State"
                   {...form.getInputProps("state")}
@@ -230,11 +233,13 @@ export default function ManageAddresses() {
               </Stack>
               <Stack gap="xs">
                 <TextInput
+                  withAsterisk
                   label="Country"
                   placeholder="Country"
                   {...form.getInputProps("country")}
                 />
                 <TextInput
+                  withAsterisk
                   label="Postal Code"
                   placeholder="12345"
                   {...form.getInputProps("postal_code")}
