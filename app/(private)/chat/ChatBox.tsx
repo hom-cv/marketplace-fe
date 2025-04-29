@@ -1,6 +1,11 @@
 "use client";
 
 import {
+  type ChatListingItem,
+  type ChatMessage,
+  type WebSocketMessage,
+} from "@/schemas/chat";
+import {
   ActionIcon,
   Avatar,
   Box,
@@ -17,11 +22,6 @@ import {
 } from "@mantine/core";
 import { IconArrowUp, IconSend } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
-import {
-  ChatListingItem,
-  ChatMessage,
-  WebSocketMessage,
-} from "../../types/chat";
 import {
   createWebSocketConnection,
   getChatHistory,

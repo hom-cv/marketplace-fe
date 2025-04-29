@@ -1,17 +1,9 @@
+import { type User } from "@/schemas/user";
 import { create } from "zustand";
 
-type User = {
-  id: string;
-  email_address: string;
-  username: string;
-  first_name: string;
-  last_name: string;
-  status: string;
-} | null;
-
 type UserStore = {
-  user: User;
-  setUser: (user: User) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
   clearUser: () => void;
 };
 

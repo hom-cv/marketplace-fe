@@ -25,9 +25,33 @@
 
 @media (max-width: 767px) {
   .tabList {
-    flex-direction: row;
-    overflow-x: auto;
+    display: none;
+  }
+
+  .mobileSection {
+    padding: var(--mantine-spacing-md);
+    border: 1px solid var(--mantine-color-dark-2);
+    border-radius: var(--mantine-radius-md);
+    background-color: var(--mantine-color-white);
+    margin-bottom: var(--mantine-spacing-md);
+  }
+
+  .mobileSection:last-child {
+    margin-bottom: 0;
+  }
+
+  .sectionHeader {
+    font-size: var(--mantine-font-size-lg);
+    font-weight: 600;
+    margin-bottom: var(--mantine-spacing-md);
     padding-bottom: var(--mantine-spacing-xs);
+    border-bottom: 2px solid var(--mantine-color-gray-2);
+  }
+}
+
+@media (min-width: 768px) {
+  .mobileSection {
+    display: none;
   }
 }
 
@@ -46,8 +70,6 @@
 
 @media (max-width: 767px) {
   .tabContent {
-    border-top: 1px solid var(--mantine-color-dark-2);
-    margin-top: var(--mantine-spacing-xs);
-    padding-top: var(--mantine-spacing-md);
+    display: none;
   }
 }

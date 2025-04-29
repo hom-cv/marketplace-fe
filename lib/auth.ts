@@ -1,25 +1,26 @@
+import { type User } from "@/schemas/user";
 import Cookies from "js-cookie";
 import apiClient from "./api-client";
 
-interface User {
-  id: string;
-  username: string;
-  email_address: string;
-  first_name: string;
-  last_name: string;
-  status: string;
-}
-
-export async function getCurrentUser(): Promise<User> {
+export async function getCurrentUser(): Promise<User | null> {
   try {
     const response = await apiClient.get("/auth/user");
-
     return response.data;
-  } catch (error: any) {
-    const message =
-      error.response?.data?.detail || error.message || "Failed to fetch user";
-    throw new Error(message);
+  } catch (error) {
+    return null;
   }
+}
+
+export function getAuthToken(): string | undefined {
+  return Cookies.get("auth_token");
+}
+
+export function setAuthToken(token: string): void {
+  Cookies.set("auth_token", token);
+}
+
+export function removeAuthToken(): void {
+  Cookies.remove("auth_token");
 }
 
 export async function login(data: { username: string; password: string }) {

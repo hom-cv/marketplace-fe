@@ -1,6 +1,6 @@
+import { ChatHistoryParams, ChatMessage } from "@/schemas/chat";
 import apiClient from "../../../lib/api-client";
 import { getCookie } from "../../../lib/util/cookies";
-import { ChatHistoryParams, ChatMessage } from "../../types/chat";
 
 interface MessageData {
   content: string;
