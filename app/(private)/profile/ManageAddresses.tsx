@@ -1,6 +1,6 @@
 "use client";
 
-import { Address } from "@/types/address";
+import { Address } from "@/schemas/address";
 import {
   ActionIcon,
   Badge,
