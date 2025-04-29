@@ -1,5 +1,6 @@
 "use client";
 
+import { ChatListingItem } from "@/schemas/chat";
 import {
   Avatar,
   Badge,
@@ -12,7 +13,6 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { ChatListingItem } from "app/types/chat";
 import { formatDistanceToNow } from "date-fns";
 import classes from "./ChatListings.module.css";
 
