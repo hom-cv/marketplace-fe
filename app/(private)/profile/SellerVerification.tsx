@@ -157,8 +157,8 @@ export default function SellerVerification() {
           <IconClockHour4 size={32} />
         </ThemeIcon>
         <Text size="sm" c="dimmed" ta="center" maw={400}>
-          Your account is being verified. We'll notify you once the verification
-          is complete.
+          Your account is being verified. We&apos;ll notify you once the
+          verification is complete.
         </Text>
       </Stack>
     );
