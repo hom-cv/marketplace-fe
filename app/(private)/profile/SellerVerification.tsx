@@ -1,14 +1,45 @@
 "use client";
 
 import BankSelect from "@/components/BankSelect";
+import { BANKS } from "@/constants/banks";
 import { useUserStore } from "@/store/userStore";
-import { Button, Select, Stack, Text, TextInput } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Loader,
+  Select,
+  Stack,
+  Text,
+  TextInput,
+  ThemeIcon,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
+import {
+  IconBuildingBank,
+  IconCircleCheck,
+  IconClockHour4,
+  IconCreditCard,
+  IconUser,
+} from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 import { submitVerification, type SellerVerificationForm } from "./actions";
 
 export default function SellerVerification() {
   const { user } = useUserStore();
+  const [status, setStatus] = useState<
+    "form" | "submitting" | "pending" | "verified"
+  >("form");
+
+  useEffect(() => {
+    if (user?.recipient) {
+      if (user.recipient.verified) {
+        setStatus("verified");
+      } else {
+        setStatus("pending");
+      }
+    }
+  }, [user]);
 
   const form = useForm<SellerVerificationForm>({
     initialValues: {
@@ -30,15 +61,17 @@ export default function SellerVerification() {
   });
 
   const handleSubmit = async (values: SellerVerificationForm) => {
+    setStatus("submitting");
     try {
       const result = await submitVerification(values);
 
       if (result.error) {
         notifications.show({
           title: "Error",
-          message: result.error,
+          message: result.error.detail,
           color: "red",
         });
+        setStatus("form");
         return;
       }
 
@@ -47,14 +80,89 @@ export default function SellerVerification() {
         message: "Seller verification submitted successfully",
         color: "green",
       });
+      setStatus("pending");
     } catch (error: any) {
       notifications.show({
         title: "Error",
         message: "Failed to submit seller verification",
         color: "red",
       });
+      setStatus("form");
     }
   };
+
+  // Loader state
+  if (status === "submitting") {
+    return (
+      <Stack align="center" gap="xl" py="xl">
+        <Loader size="lg" />
+        <Text size="sm" c="dimmed">
+          Submitting your verification...
+        </Text>
+      </Stack>
+    );
+  }
+
+  // Verified state
+  if (status === "verified" && user && user.recipient) {
+    const bankName =
+      BANKS.find((bank) => bank.code === user.recipient?.bank_account_bank_code)
+        ?.name || "Unknown Bank";
+
+    return (
+      <Stack align="center" gap="xl" py="xl">
+        <ThemeIcon size={56} radius={100} variant="light">
+          <IconCircleCheck size={32} />
+        </ThemeIcon>
+        <Stack gap="lg" w="100%" maw={400}>
+          <Text size="sm" c="dimmed" ta="center" fw={500}>
+            Verified Account Details
+          </Text>
+          <Stack gap="md">
+            <Group gap="sm">
+              <ThemeIcon size="md" variant="light">
+                <IconBuildingBank size={14} />
+              </ThemeIcon>
+              <Text fw={500} size="sm">
+                {bankName}
+              </Text>
+            </Group>
+            <Group gap="sm">
+              <ThemeIcon size="md" variant="light">
+                <IconCreditCard size={14} />
+              </ThemeIcon>
+              <Text size="sm" fw={500}>
+                ****{user.recipient?.bank_account_last_digits}
+              </Text>
+            </Group>
+            <Group gap="sm">
+              <ThemeIcon size="md" variant="light">
+                <IconUser size={14} />
+              </ThemeIcon>
+              <Text size="sm" fw={500}>
+                {user.first_name} {user.last_name}
+              </Text>
+            </Group>
+          </Stack>
+        </Stack>
+      </Stack>
+    );
+  }
+
+  // Pending state
+  if (status === "pending" && user) {
+    return (
+      <Stack align="center" gap="xl" py="xl">
+        <ThemeIcon size={56} radius={100} variant="light">
+          <IconClockHour4 size={32} />
+        </ThemeIcon>
+        <Text size="sm" c="dimmed" ta="center" maw={400}>
+          Your account is being verified. We'll notify you once the verification
+          is complete.
+        </Text>
+      </Stack>
+    );
+  }
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -82,7 +190,6 @@ export default function SellerVerification() {
           placeholder="Enter your tax ID"
           {...form.getInputProps("tax_id")}
         />
-
         <Select
           withAsterisk
           label="Account Type"
@@ -93,7 +200,6 @@ export default function SellerVerification() {
           ]}
           {...form.getInputProps("type")}
         />
-
         <BankSelect
           withAsterisk
           label="Bank Name"
@@ -112,7 +218,6 @@ export default function SellerVerification() {
           placeholder="Enter branch"
           {...form.getInputProps("bank_branch")}
         />
-
         <Button type="submit">Submit Verification</Button>
       </Stack>
     </form>

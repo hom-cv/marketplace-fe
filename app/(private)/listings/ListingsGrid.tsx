@@ -1,5 +1,6 @@
 "use client";
 
+import { useUserStore } from "@/store/userStore";
 import { Button, Center, Group, SimpleGrid, Text, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/navigation";
@@ -22,8 +23,11 @@ interface Listing {
 
 export default function ListingsGrid() {
   const router = useRouter();
+  const { user } = useUserStore();
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const isVerifiedSeller = !!user?.recipient;
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -44,13 +48,26 @@ export default function ListingsGrid() {
     fetchListings();
   }, []);
 
+  const handleNewListing = () => {
+    if (!isVerifiedSeller) {
+      notifications.show({
+        title: "Verification Required",
+        message:
+          "You need to be a verified seller to create listings. Please complete seller verification in your profile.",
+        color: "yellow",
+      });
+      router.push("/profile?tab=verification");
+      return;
+    }
+    router.push("/listings/new");
+  };
+
   return (
     <>
       <Group justify="space-between" mb="xl">
         <Title order={2}>Listings</Title>
-        <Button onClick={() => router.push("/listings/new")}>
-          + New Listing
-        </Button>
+
+        <Button onClick={handleNewListing}>+ New Listing</Button>
       </Group>
 
       {listings.length === 0 && !loading ? (
