@@ -1,5 +1,6 @@
 "use client";
 
+import { ChatListingItem } from "@/schemas/chat";
 import {
   Box,
   Center,
@@ -11,7 +12,6 @@ import {
   Text,
 } from "@mantine/core";
 import { useCallback, useEffect, useState } from "react";
-import { ChatListingItem } from "../../types/chat";
 import { getChatListings } from "./actions";
 import ChatBox from "./ChatBox";
 import ChatListings from "./ChatListings";

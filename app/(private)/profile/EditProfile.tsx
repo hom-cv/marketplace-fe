@@ -55,21 +55,25 @@ export default function EditProfile() {
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <Stack gap="md">
         <TextInput
+          withAsterisk
           label="Email"
           placeholder="your@email.com"
           {...form.getInputProps("email_address")}
         />
         <TextInput
+          withAsterisk
           label="Username"
           placeholder="Your username"
           {...form.getInputProps("username")}
         />
         <TextInput
+          withAsterisk
           label="First Name"
           placeholder="John"
           {...form.getInputProps("first_name")}
         />
         <TextInput
+          withAsterisk
           label="Last Name"
           placeholder="Smith"
           {...form.getInputProps("last_name")}
