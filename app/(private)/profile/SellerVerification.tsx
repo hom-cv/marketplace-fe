@@ -55,8 +55,20 @@ export default function SellerVerification() {
       first_name: (value) => (!value ? "First name is required" : null),
       last_name: (value) => (!value ? "Last name is required" : null),
       bank_brand: (value) => (!value ? "Bank name is required" : null),
-      bank_number: (value) => (!value ? "Account number is required" : null),
+      bank_number: (value) => {
+        if (!value) return "Account number is required";
+        if (!/^\d{10}$/.test(value))
+          return "Account number must be exactly 10 digits";
+        return null;
+      },
       bank_branch: (value) => (!value ? "Branch is required" : null),
+      tax_id: (value) => {
+        if (!value) return "Tax ID is required";
+        if (!/^\d{13}$/.test(value)) {
+          return "Tax ID must be exactly 13 digits";
+        }
+        return null;
+      },
     },
   });
 
@@ -186,7 +198,8 @@ export default function SellerVerification() {
           {...form.getInputProps("last_name")}
         />
         <TextInput
-          label="Tax ID (Optional)"
+          withAsterisk
+          label="Tax ID"
           placeholder="Enter your tax ID"
           {...form.getInputProps("tax_id")}
         />
