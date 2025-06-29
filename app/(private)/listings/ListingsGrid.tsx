@@ -27,7 +27,7 @@ export default function ListingsGrid() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const isVerifiedSeller = !!user?.recipient;
+  const isVerifiedSeller = !!user?.recipient?.verified;
 
   useEffect(() => {
     const fetchListings = async () => {
