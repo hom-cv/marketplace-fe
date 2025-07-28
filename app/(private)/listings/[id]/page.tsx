@@ -67,9 +67,5 @@ export default function ListingDetailPage() {
     );
   }
 
-  return (
-    <Container size="xl" py={{ base: "md", sm: "xl" }}>
-      <ListingDetail listing={listing} />
-    </Container>
-  );
+  return <ListingDetail listing={listing} />;
 }
