@@ -73,7 +73,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
           <Text
             variant="light"
             c={isSold ? "dimmed" : "inherit"}
-            fw={isSold && 700}
+            fw={isSold ? 700 : 500}
           >
             {isSold ? "SOLD" : `฿${listing.price.toFixed(2)}`}
           </Text>
