@@ -131,7 +131,14 @@ export default function CreateListingPage() {
             withAsterisk
             label="Condition"
             placeholder="Select condition"
-            data={["New", "Like New", "Used - Good", "Used - Fair"]}
+            data={[
+              { value: "NEW_WITH_TAGS", label: "New with Tags" },
+              { value: "NEW_WITHOUT_TAGS", label: "New without Tags" },
+              { value: "LIKE_NEW", label: "Like New" },
+              { value: "VERY_GOOD", label: "Very Good" },
+              { value: "GOOD", label: "Good" },
+              { value: "FAIR", label: "Fair" },
+            ]}
             key={form.key("condition")}
             {...form.getInputProps("condition")}
           />
@@ -140,7 +147,15 @@ export default function CreateListingPage() {
             withAsterisk
             label="Category"
             placeholder="Select category"
-            data={["Shirt", "Pants", "Shoes", "Accessories", "Outerwear"]}
+            data={[
+              { value: "TOPS", label: "Tops" },
+              { value: "BOTTOMS", label: "Bottoms" },
+              { value: "DRESSES", label: "Dresses" },
+              { value: "OUTERWEAR", label: "Outerwear" },
+              { value: "SHOES", label: "Shoes" },
+              { value: "ACCESSORIES", label: "Accessories" },
+              { value: "OTHER", label: "Other" },
+            ]}
             key={form.key("category")}
             {...form.getInputProps("category")}
           />

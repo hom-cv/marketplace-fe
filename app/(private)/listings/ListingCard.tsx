@@ -19,11 +19,13 @@ interface ListingCardProps {
       username: string;
     };
     is_liked?: boolean;
+    status?: string;
   };
 }
 
 export default function ListingCard({ listing }: ListingCardProps) {
   const router = useRouter();
+  const isSold = listing.status === "SOLD";
 
   return (
     <Card
@@ -34,6 +36,10 @@ export default function ListingCard({ listing }: ListingCardProps) {
       component={Link}
       href={`/listings/${listing.id}`}
       className={classes.card}
+      style={{
+        opacity: isSold ? 0.6 : 1,
+        filter: isSold ? "grayscale(1)" : "none",
+      }}
     >
       <Card.Section pos="relative">
         <Image
@@ -64,7 +70,13 @@ export default function ListingCard({ listing }: ListingCardProps) {
           {listing.description}
         </Text>
         <Group justify="space-between">
-          <Text variant="light">฿{listing.price.toFixed(2)}</Text>
+          <Text
+            variant="light"
+            c={isSold ? "dimmed" : "inherit"}
+            fw={isSold && 700}
+          >
+            {isSold ? "SOLD" : `฿${listing.price.toFixed(2)}`}
+          </Text>
         </Group>
       </Stack>
     </Card>
