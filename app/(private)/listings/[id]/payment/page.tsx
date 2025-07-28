@@ -169,7 +169,7 @@ export default function PaymentPage() {
                 Payment Failed
               </Title>
               <Text c="dimmed" ta="center" size="lg">
-                We couldn't process your payment. Please try again.
+                We couldn&apos;t process your payment. Please try again.
               </Text>
 
               {errorMessage && (
