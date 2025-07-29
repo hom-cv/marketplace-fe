@@ -128,7 +128,7 @@ export default function HomePage() {
             maw={600}
             mx="auto"
           >
-            We've crafted a seamless platform that brings together fashion
+            We&apos;ve crafted a seamless platform that brings together fashion
             enthusiasts, collectors, and sellers in one vibrant community.
           </Text>
           <div className={classes.featureGrid}>
@@ -157,8 +157,9 @@ export default function HomePage() {
                 Ready to Transform Your Fashion Journey?
               </Title>
               <Text size="lg" c="dimmed" maw={600} ta="center">
-                Whether you're looking to discover unique pieces or share your
-                collection with the world, Market Archives is your destination.
+                Whether you&apos;re looking to discover unique pieces or share
+                your collection with the world, Market Archives is your
+                destination.
               </Text>
               <Group gap="md">
                 <Button
