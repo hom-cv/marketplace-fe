@@ -1,18 +1,17 @@
-/**
- * Utility function to get a cookie value by name
- */
+import Cookies from "js-cookie";
+
+// Utility to read a cookie by name - first try js-cookie, then fallback to document.cookie
 export function getCookie(name: string): string | null {
-  if (typeof document === "undefined") {
-    return null;
-  }
+  // Try to get cookie using js-cookie first (more reliable)
+  const jsCookie = Cookies.get(name);
+  if (jsCookie) return jsCookie;
+
+  // Fallback to document.cookie parsing
+  if (typeof document === "undefined") return null;
 
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
-
-  if (parts.length === 2) {
-    return parts.pop()?.split(";").shift() || null;
-  }
-
+  if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
   return null;
 }
 
@@ -51,13 +50,11 @@ export function setCookie(
   document.cookie = cookieString;
 }
 
-/**
- * Utility function to delete a cookie
- */
-export function deleteCookie(name: string): void {
-  if (typeof document === "undefined") {
-    return;
-  }
-
-  document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/`;
+// Utility to remove a cookie
+export function removeCookie(name: string): void {
+  Cookies.remove(name, {
+    path: "/",
+    secure: window.location.protocol === "https:",
+    sameSite: "Lax",
+  });
 }

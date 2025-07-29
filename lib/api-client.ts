@@ -1,20 +1,5 @@
 import axios from "axios";
-import Cookies from "js-cookie";
-
-// Utility to read a cookie by name - first try js-cookie, then fallback to document.cookie
-function getCookie(name: string): string | null {
-  // Try to get cookie using js-cookie first (more reliable)
-  const jsCookie = Cookies.get(name);
-  if (jsCookie) return jsCookie;
-
-  // Fallback to document.cookie parsing
-  if (typeof document === "undefined") return null;
-
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
-  return null;
-}
+import { getCookie, removeCookie } from "./util/cookies";
 
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1",
@@ -34,6 +19,29 @@ apiClient.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error)
+);
+
+// Add response interceptor to handle 401 errors
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Clear the access token
+      removeCookie("access_token");
+
+      // Redirect to login page
+      if (typeof window !== "undefined") {
+        // Store the current path to redirect back after login
+        const currentPath = window.location.pathname;
+        if (currentPath !== "/auth/login") {
+          window.location.href = `/auth/login?redirect=${encodeURIComponent(
+            currentPath
+          )}`;
+        }
+      }
+    }
+    return Promise.reject(error);
+  }
 );
 
 export default apiClient;

@@ -1,6 +1,6 @@
 import { useUserStore } from "@/store/userStore";
 import {
-  ActionIcon,
+  Avatar,
   Box,
   Burger,
   Button,
@@ -9,13 +9,17 @@ import {
   Group,
   Menu,
   Stack,
+  Text,
+  UnstyledButton,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
+  IconChevronDown,
   IconHeart,
+  IconLayoutGrid,
   IconLogout,
   IconMail,
-  IconShirt,
+  IconShoppingBag,
   IconUser,
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -27,186 +31,187 @@ export default function Navbar() {
   const [opened, { toggle, close }] = useDisclosure(false);
 
   const handleLogout = async () => {
-    // Clear user from store
     clearUser();
-    // Call server action to logout
     await logout();
   };
 
-  const menuItems = user ? (
-    <Stack>
-      <Button
-        component={Link}
-        href="/listings"
-        onClick={close}
-        mt="auto"
-        variant="outline"
-      >
-        Explore
-      </Button>
-      <Button
-        variant="transparent"
-        onClick={close}
-        leftSection={<IconUser />}
-        justify="flex-start"
-        fullWidth
-        component={Link}
-        href="/profile"
-      >
-        Profile
-      </Button>
-      <Button
-        variant="transparent"
-        onClick={close}
-        leftSection={<IconHeart />}
-        justify="flex-start"
-        fullWidth
-        component={Link}
-        href="/likes"
-      >
-        My Likes
-      </Button>
-      <Button
-        variant="transparent"
-        onClick={close}
-        leftSection={<IconMail />}
-        justify="flex-start"
-        fullWidth
-        component={Link}
-        href="/chat"
-      >
-        My Messages
-      </Button>
-      <Divider />
-      <Button
-        variant="transparent"
-        onClick={close}
-        leftSection={<IconShirt />}
-        justify="flex-start"
-        fullWidth
-        component={Link}
-        href="/listings"
-      >
-        Browse Listings
-      </Button>
-      <Divider />
+  const menuItems = [
+    {
+      label: "Explore Listings",
+      icon: <IconLayoutGrid size={18} />,
+      href: "/listings",
+    },
+    {
+      label: "Edit Profile",
+      icon: <IconUser size={18} />,
+      href: "/profile",
+    },
+    {
+      label: "My Likes",
+      icon: <IconHeart size={18} />,
+      href: "/likes",
+    },
+    {
+      label: "Messages",
+      icon: <IconMail size={18} />,
+      href: "/chat",
+    },
+  ];
+
+  const renderMobileMenu = () => (
+    <Box className={classes.mobileMenu}>
+      <Box className={classes.mobileHeader}>
+        <Group>
+          <Avatar radius="xl" size="md" color="gray">
+            {user?.first_name?.[0] || user?.email_address?.[0]?.toUpperCase()}
+          </Avatar>
+          <Box>
+            <Text size="sm" fw={500}>
+              {user?.first_name || "Welcome"}
+            </Text>
+            <Text size="xs" c="dimmed">
+              {user?.email_address}
+            </Text>
+          </Box>
+        </Group>
+      </Box>
+
+      <Divider my="sm" />
+
+      <Stack gap="xs">
+        {menuItems.map((item) => (
+          <UnstyledButton
+            key={item.href}
+            component={Link}
+            href={item.href}
+            onClick={close}
+            className={classes.mobileMenuItem}
+          >
+            {item.icon}
+            <Text size="sm">{item.label}</Text>
+          </UnstyledButton>
+        ))}
+      </Stack>
+
       <Button
         onClick={() => {
           close();
           handleLogout();
         }}
-        leftSection={<IconLogout />}
         color="red"
-        variant="light"
+        variant="subtle"
+        leftSection={<IconLogout size={18} />}
+        radius="xs"
         fullWidth
+        className={classes.logoutButton}
       >
-        Logout
+        Log out
       </Button>
-    </Stack>
-  ) : (
-    <Stack>
-      <Button
-        variant="light"
-        component={Link}
-        href="/auth/login"
-        onClick={close}
-        justify="flex-start"
-      >
-        Login
-      </Button>
-      <Button
-        component={Link}
-        href="/auth/register"
-        onClick={close}
-        justify="flex-start"
-      >
-        Sign Up
-      </Button>
-    </Stack>
+    </Box>
   );
 
   return (
     <>
       <nav className={classes.navbar}>
-        <Button
-          variant="transparent"
-          component={Link}
-          href="/app"
-          className={classes.brand}
-        >
-          Market Archives
-        </Button>
+        <div className={classes.navbarContainer}>
+          {/* Logo */}
+          <Link href="/app" className={classes.brandLink}>
+            <IconShoppingBag className={classes.brandIcon} />
+            <span className={classes.brandText}>Market Archives</span>
+          </Link>
 
-        {/* Desktop menu */}
-        <Box className={classes.desktop_menu}>
-          {user ? (
-            <Group gap="md">
-              <Button component={Link} href="/listings" variant="outline">
-                Explore
-              </Button>
-              <ActionIcon
-                variant="transparent"
-                size="compact-sm"
-                component={Link}
-                href="/likes"
-              >
-                <IconHeart />
-              </ActionIcon>
-              <ActionIcon
-                variant="transparent"
-                size="compact-sm"
-                component={Link}
-                href="/chat"
-              >
-                <IconMail />
-              </ActionIcon>
-              <Menu shadow="md" width={200} position="bottom-end">
-                <Menu.Target>
-                  <ActionIcon variant="transparent" size="compact-sm">
-                    <IconUser />
-                  </ActionIcon>
-                </Menu.Target>
+          {/* Desktop Navigation */}
+          <div className={classes.desktopMenu}>
+            {user ? (
+              <Group gap="md">
+                <Button
+                  component={Link}
+                  href="/listings"
+                  variant="filled"
+                  radius="xs"
+                  leftSection={<IconLayoutGrid size={18} />}
+                >
+                  Explore
+                </Button>
 
-                <Menu.Dropdown>
-                  <Menu.Label>Account</Menu.Label>
-                  <Menu.Item
-                    component={Link}
-                    href="/profile"
-                    leftSection={<IconUser size={16} />}
-                  >
-                    Profile
-                  </Menu.Item>
-                  <Menu.Divider />
-                  <Menu.Item
-                    color="red"
-                    leftSection={<IconLogout size={16} />}
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </Group>
-          ) : (
-            <Group gap="md">
-              <Button variant="light" component={Link} href="/auth/login">
-                Login
-              </Button>
-              <Button component={Link} href="/auth/register">
-                Sign Up
-              </Button>
-            </Group>
+                <Menu
+                  position="bottom-end"
+                  offset={4}
+                  withArrow
+                  arrowOffset={12}
+                  shadow="sm"
+                  width={220}
+                >
+                  <Menu.Target>
+                    <UnstyledButton className={classes.userButton}>
+                      <Group gap="xs">
+                        <Avatar radius="xl" size="sm" color="gray">
+                          {user.first_name?.[0] ||
+                            user.email_address?.[0]?.toUpperCase()}
+                        </Avatar>
+                        <Box style={{ flex: 1 }}>
+                          <Text size="sm" fw={500}>
+                            {user.first_name || "Account"}
+                          </Text>
+                          <Text size="xs" c="dimmed">
+                            {user.email_address}
+                          </Text>
+                        </Box>
+                        <IconChevronDown size={16} color="gray" />
+                      </Group>
+                    </UnstyledButton>
+                  </Menu.Target>
+
+                  <Menu.Dropdown>
+                    {menuItems.map((item) => (
+                      <Menu.Item
+                        key={item.href}
+                        component={Link}
+                        href={item.href}
+                        leftSection={item.icon}
+                      >
+                        {item.label}
+                      </Menu.Item>
+                    ))}
+                    <Menu.Divider />
+                    <Menu.Item
+                      color="red"
+                      leftSection={<IconLogout size={18} />}
+                      onClick={handleLogout}
+                    >
+                      Log out
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </Group>
+            ) : (
+              <Group gap="md">
+                <Button
+                  variant="outline"
+                  component={Link}
+                  href="/auth/login"
+                  radius="xs"
+                >
+                  Login
+                </Button>
+                <Button component={Link} href="/auth/register" radius="xs">
+                  Sign Up
+                </Button>
+              </Group>
+            )}
+          </div>
+
+          {/* Mobile burger button */}
+          {user && (
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              className={classes.burger}
+              size="sm"
+              hiddenFrom="sm"
+            />
           )}
-        </Box>
-
-        {/* Mobile burger button */}
-        <Burger
-          opened={opened}
-          onClick={toggle}
-          className={classes.burger}
-          size="sm"
-          hiddenFrom="sm"
-        />
+        </div>
       </nav>
 
       {/* Mobile drawer */}
@@ -214,11 +219,15 @@ export default function Navbar() {
         opened={opened}
         onClose={close}
         size="100%"
-        padding="md"
+        padding={0}
         hiddenFrom="sm"
         zIndex={1000}
+        classNames={{
+          header: classes.drawerHeader,
+          close: classes.drawerClose,
+        }}
       >
-        {menuItems}
+        {renderMobileMenu()}
       </Drawer>
     </>
   );
