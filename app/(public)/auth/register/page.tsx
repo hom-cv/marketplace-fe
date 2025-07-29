@@ -1,13 +1,18 @@
 "use client";
 
-import { Center } from "@mantine/core";
-import classes from "../login/Login.module.css";
+import { IconArrowLeft } from "@tabler/icons-react";
+import Link from "next/link";
+import classes from "./Register.module.css";
 import RegisterForm from "./RegisterForm";
 
 export default function RegisterPage() {
   return (
-    <Center className={classes.login_container}>
+    <div className={classes.register_container}>
+      <Link href="/" className={classes.back_button}>
+        <IconArrowLeft className={classes.back_icon} />
+        Back to home
+      </Link>
       <RegisterForm />
-    </Center>
+    </div>
   );
 }

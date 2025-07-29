@@ -1,11 +1,12 @@
 "use client";
 
-import { Anchor, Box, Button, Text, TextInput } from "@mantine/core";
+import { Box, Button, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import classes from "../login/Login.module.css";
+import classes from "./Register.module.css";
 import { handleRegister } from "./actions";
 
 export default function RegisterForm() {
@@ -65,67 +66,100 @@ export default function RegisterForm() {
   };
 
   return (
-    <Box className={classes.login_box}>
-      <Text fw={700} size="lg" mb={5}>
-        Register
-      </Text>
+    <Box className={classes.register_box}>
+      <div>
+        <h1 className={classes.title}>Create an account</h1>
+        <p className={classes.subtitle}>
+          Join our community and start exploring unique fashion pieces
+        </p>
+      </div>
 
-      {errorMessage && (
-        <Text color="red" size="sm" mb={10}>
-          {errorMessage}
-        </Text>
-      )}
+      <form
+        onSubmit={form.onSubmit(onSubmit)}
+        className={classes.register_form}
+      >
+        {errorMessage && (
+          <Text className={classes.error_message}>{errorMessage}</Text>
+        )}
 
-      <form onSubmit={form.onSubmit(onSubmit)} className={classes.login_form}>
-        <TextInput
-          withAsterisk
-          label="Email"
-          placeholder="your@email.com"
-          {...form.getInputProps("email_address")}
-        />
-        <TextInput
-          withAsterisk
-          label="Username"
-          placeholder="Your username"
-          {...form.getInputProps("username")}
-        />
-        <TextInput
-          withAsterisk
-          label="First Name"
-          placeholder="John"
-          {...form.getInputProps("first_name")}
-        />
-        <TextInput
-          withAsterisk
-          label="Last Name"
-          placeholder="Smith"
-          {...form.getInputProps("last_name")}
-        />
-        <TextInput
-          withAsterisk
-          label="Password"
-          placeholder="Your password"
-          type="password"
-          {...form.getInputProps("password")}
-        />
+        <div>
+          <TextInput
+            label="Email address"
+            placeholder="Enter your email"
+            classNames={{
+              input: classes.input,
+              label: classes.label,
+            }}
+            {...form.getInputProps("email_address")}
+          />
+        </div>
+
+        <div>
+          <TextInput
+            label="Username"
+            placeholder="Choose a username"
+            classNames={{
+              input: classes.input,
+              label: classes.label,
+            }}
+            {...form.getInputProps("username")}
+          />
+        </div>
+
+        <div>
+          <TextInput
+            label="First Name"
+            placeholder="Enter your first name"
+            classNames={{
+              input: classes.input,
+              label: classes.label,
+            }}
+            {...form.getInputProps("first_name")}
+          />
+        </div>
+
+        <div>
+          <TextInput
+            label="Last Name"
+            placeholder="Enter your last name"
+            classNames={{
+              input: classes.input,
+              label: classes.label,
+            }}
+            {...form.getInputProps("last_name")}
+          />
+        </div>
+
+        <div>
+          <TextInput
+            label="Password"
+            type="password"
+            placeholder="Create a password"
+            classNames={{
+              input: classes.input,
+              label: classes.label,
+            }}
+            {...form.getInputProps("password")}
+          />
+        </div>
 
         <Button
-          fullWidth
           type="submit"
           loading={loading}
           disabled={loading}
-          mt={10}
+          className={classes.submit_button}
+          fullWidth
         >
-          {loading ? "Signing up..." : "Sign up"}
+          {loading ? "Creating account..." : "Create account"}
         </Button>
       </form>
 
-      <Text size="sm" ta="center" mt={10}>
+      <p className={classes.login_text}>
         Already have an account?{" "}
-        <Anchor size="sm" href="/auth/login">
-          Log in
-        </Anchor>
-      </Text>
+        <Link href="/auth/login" className={classes.login_link}>
+          Sign in
+        </Link>
+      </p>
     </Box>
   );
 }

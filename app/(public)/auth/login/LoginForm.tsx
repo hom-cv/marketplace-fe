@@ -1,16 +1,18 @@
 "use client";
 
-import { Anchor, Box, Button, Text, TextInput } from "@mantine/core";
+import { Box, Button, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import classes from "./Login.module.css";
 import { handleLogin } from "./actions";
 
 export default function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -50,7 +52,10 @@ export default function LoginForm() {
           message: "Welcome back!",
           color: "green",
         });
-        router.push("/app");
+
+        // Check for redirect parameter
+        const redirect = searchParams.get("redirect");
+        router.push(redirect || "/app");
         router.refresh(); // Refresh the page to update server components with new auth state
       } else {
         setErrorMessage(result.error || "Login failed");
@@ -67,48 +72,60 @@ export default function LoginForm() {
 
   return (
     <Box className={classes.login_box}>
-      <Text fw={700} size="lg" mb={5}>
-        Login
-      </Text>
-
-      {errorMessage && (
-        <Text color="red" size="sm" mb={10}>
-          {errorMessage}
-        </Text>
-      )}
+      <div>
+        <h1 className={classes.title}>Welcome back</h1>
+        <p className={classes.subtitle}>
+          Enter your email and password to access your account
+        </p>
+      </div>
 
       <form onSubmit={form.onSubmit(onSubmit)} className={classes.login_form}>
-        <TextInput
-          withAsterisk
-          label="Email"
-          placeholder="your@email.com"
-          {...form.getInputProps("username")}
-        />
-        <TextInput
-          withAsterisk
-          label="Password"
-          placeholder="Your password"
-          type="password"
-          {...form.getInputProps("password")}
-        />
+        {errorMessage && (
+          <Text className={classes.error_message}>{errorMessage}</Text>
+        )}
+
+        <div>
+          <TextInput
+            label="Email address"
+            placeholder="Enter your email"
+            classNames={{
+              input: classes.input,
+              label: classes.label,
+            }}
+            {...form.getInputProps("username")}
+          />
+        </div>
+
+        <div>
+          <TextInput
+            label="Password"
+            type="password"
+            placeholder="Enter your password"
+            classNames={{
+              input: classes.input,
+              label: classes.label,
+            }}
+            {...form.getInputProps("password")}
+          />
+        </div>
 
         <Button
-          fullWidth
           type="submit"
           loading={loading}
           disabled={loading}
-          mt={10}
+          className={classes.submit_button}
+          fullWidth
         >
-          {loading ? "Logging in..." : "Log in"}
+          {loading ? "Signing in..." : "Sign in"}
         </Button>
       </form>
 
-      <Text size="sm" ta="center" mt={10}>
+      <p className={classes.signup_text}>
         Don&#39;t have an account?{" "}
-        <Anchor size="sm" href="/auth/register">
+        <Link href="/auth/register" className={classes.signup_link}>
           Sign up
-        </Anchor>
-      </Text>
+        </Link>
+      </p>
     </Box>
   );
 }
